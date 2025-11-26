@@ -6,6 +6,7 @@ import { addWeeks, format } from "date-fns"
 import { Activity, Baby, Bell, CheckCircle2, HeartPulse, NotebookPen, Salad, Stethoscope, Thermometer, Users } from "lucide-react"
 import type { User } from "firebase/auth"
 import { onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth"
+import type { FirebaseError } from "firebase/app"
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore"
 
 import { auth, db, firebaseReady, googleAuthProvider } from "@/lib/firebase"
@@ -259,7 +260,19 @@ export default function Home() {
       return
     }
 
-    await signInWithPopup(auth, googleAuthProvider)
+    try {
+      setStatusMessage("Opening Google sign-in…")
+      await signInWithPopup(auth, googleAuthProvider)
+      setStatusMessage(null)
+    } catch (error) {
+      console.error(error)
+      const firebaseError = error as FirebaseError
+      if (firebaseError.code === "auth/unauthorized-domain") {
+        setStatusMessage("Add your deploy domain to Firebase Auth > Settings > Authorized domains.")
+        return
+      }
+      setStatusMessage(firebaseError.message || "Google sign-in failed. Please try again.")
+    }
   }
 
   const updateWeek = async (week: number) => {

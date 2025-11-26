@@ -18,4 +18,8 @@ NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=your_measurement_id
 
 Restart the dev server after changing env values.
 
+### Authorized domains
+
+When deploying (for example to Vercel), add every deployment host—`localhost`, preview URLs, and your production domain—to **Firebase Console → Authentication → Settings → Authorized domains**. Without this, Google sign-in will throw `auth/unauthorized-domain` errors.
+
 
