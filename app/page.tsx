@@ -5,10 +5,10 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import { addWeeks, format } from "date-fns"
 import { Activity, Baby, Bell, CheckCircle2, HeartPulse, NotebookPen, Salad, Stethoscope, Thermometer, Users } from "lucide-react"
 import type { User } from "firebase/auth"
-import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth"
+import { onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth"
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore"
 
-import { auth, db, firebaseReady } from "@/lib/firebase"
+import { auth, db, firebaseReady, googleAuthProvider } from "@/lib/firebase"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -144,8 +144,6 @@ const ARTICLES = [
   },
 ]
 
-const provider = new GoogleAuthProvider()
-
 const makeId = () => {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
     return crypto.randomUUID()
@@ -261,7 +259,7 @@ export default function Home() {
       return
     }
 
-    await signInWithPopup(auth, provider)
+    await signInWithPopup(auth, googleAuthProvider)
   }
 
   const updateWeek = async (week: number) => {
