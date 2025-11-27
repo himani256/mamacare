@@ -361,65 +361,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#fffaf5] via-[#fff1ea] to-[#ffeae0] pb-24">
-      <div className="hero-grid relative px-4 py-10 sm:px-8 lg:px-12">
-        <div className="mx-auto flex max-w-6xl flex-col gap-8 lg:flex-row lg:items-center">
-          <div className="flex-1 space-y-6">
-            <p className="pill w-fit bg-white/70">Created with ❤️ by Himani</p>
-            <h1 className="section-heading">
-              Mamacare keeps every trimester nourished, documented, and on schedule.
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              Log symptoms, get dietitian-backed food swaps, and never miss a prenatal checkup. Your Firebase-secured
-              dashboard travels with you and your care team.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Button size="lg" className="bg-primary text-primary-foreground shadow-lg" onClick={handleGoogleAuth}>
-                {user ? "Sign out of Mamacare" : "Continue with Google"}
-              </Button>
-              <Button size="lg" variant="outline" className="border-primary/40 text-primary hover:bg-primary/10" asChild>
-                <a href="#dashboard">Preview dashboard</a>
-              </Button>
-            </div>
-            <div className="flex flex-wrap gap-6 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                Encrypted with Firebase Auth
-              </div>
-              <div className="flex items-center gap-2">
-                <HeartPulse className="h-4 w-4 text-accent" />
-                Dietitian-authored guidance
-              </div>
-              <div className="flex items-center gap-2">
-                <Bell className="h-4 w-4 text-primary" />
-                Custom prenatal reminders
-              </div>
-            </div>
-          </div>
-          <div className="relative mx-auto flex w-full max-w-md flex-col gap-4 rounded-3xl bg-white/80 p-6 shadow-2xl backdrop-blur-md">
-            <div className="flex items-center gap-3 rounded-2xl bg-primary/5 p-4">
-              <Baby className="h-10 w-10 text-primary" />
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Current week</p>
-                <p className="text-2xl font-semibold text-primary">{profile.pregnancyWeek}</p>
-              </div>
-              <div className="ml-auto text-right">
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">Baby Arrival</p>
-                <p className="text-lg font-semibold">{dueDate ?? "—"}</p>
-              </div>
-            </div>
-            <Image
-              src="/logo.png"
-              alt="Pregnancy companion preview"
-              width={540}
-              height={540}
-              className="h-64 w-full rounded-2xl object-cover"
-            />
-            <div className="rounded-2xl border border-primary/20 p-4 text-sm text-muted-foreground">
-              Securely backed by Firebase Authentication + Firestore. Export logs anytime for your OB team.
-            </div>
-          </div>
-        </div>
-      </div>
 
       <main id="dashboard" className="mx-auto mt-12 grid max-w-6xl gap-6 px-4 sm:px-6 lg:px-8">
         {firebaseAlert}
