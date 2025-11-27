@@ -164,6 +164,11 @@ export default function Home() {
     return format(addWeeks(new Date(now), profile.reminderFrequencyWeeks), "EEE, MMM d")
   }, [now, profile.reminderFrequencyWeeks])
 
+  const dueDate = useMemo(() => {
+    if (!now || profile.pregnancyWeek >= 40) return null
+    return format(addWeeks(new Date(now), 40 - profile.pregnancyWeek), "EEE, MMM d")
+  }, [now, profile.pregnancyWeek])
+
   const loadProfile = useCallback(
     async (authUser: User) => {
       if (!db) return
@@ -399,7 +404,7 @@ export default function Home() {
               </div>
               <div className="ml-auto text-right">
                 <p className="text-xs uppercase tracking-wide text-muted-foreground">Due ETA</p>
-                <p className="text-lg font-semibold">{nextCheckup ?? "—"}</p>
+                <p className="text-lg font-semibold">{dueDate ?? "—"}</p>
               </div>
             </div>
             <Image
