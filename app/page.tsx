@@ -40,7 +40,7 @@ type MamacareProfile = {
 }
 
 const defaultProfile: MamacareProfile = {
-  pregnancyWeek: 12,
+  pregnancyWeek: 4,
   symptoms: [],
   reminderFrequencyWeeks: 4,
   customNotes: "",
@@ -106,44 +106,9 @@ const REMINDER_PRESETS: Record<ReminderFrequency, string> = {
   4: "Monthly visits (1st–2nd trimester routine)",
 }
 
-const COMMUNITY_TOPICS = [
-  {
-    title: "First kicks & big feelings",
-    members: "12.4K parents sharing daily wins.",
-    tags: ["Trimester 2", "Mindfulness"],
-  },
-  {
-    title: "Meal prep for busy weeks",
-    members: "8.1K recipes & grocery swaps.",
-    tags: ["Dietitian tips", "Budget friendly"],
-  },
-  {
-    title: "Cesarean & VBAC stories",
-    members: "5.3K stories to help you plan confidently.",
-    tags: ["Birth prep", "Care teams"],
-  },
-]
+const COMMUNITY_TOPICS: { title: string; members: string; tags: string[] }[] = []
 
-const ARTICLES = [
-  {
-    title: "Evidence-based prenatal supplement checklist",
-    minutes: 6,
-    tag: "Clinical",
-    summary: "Compare OB/GYN approved prenatal blends and learn when to adjust iron or DHA.",
-  },
-  {
-    title: "Symptom pairing: what your body is asking for",
-    minutes: 4,
-    tag: "Nutrition",
-    summary: "Translate cravings, swelling, or headaches into nutrient targets.",
-  },
-  {
-    title: "Partner playbook for trimester three",
-    minutes: 5,
-    tag: "Community",
-    summary: "Micro-habits partners can take on to reduce stress before delivery.",
-  },
-]
+const ARTICLES: { title: string; minutes: number; tag: string; summary: string }[] = []
 
 const makeId = () => {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
@@ -163,7 +128,7 @@ export default function Home() {
   })
   const [statusMessage, setStatusMessage] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
-  const [deviceSync, setDeviceSync] = useState({ heartRate: true, steps: true })
+  const [deviceSync, setDeviceSync] = useState({ heartRate: false, steps: false })
   const [now, setNow] = useState<number | null>(null)
 
   useEffect(() => {
