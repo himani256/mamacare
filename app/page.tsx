@@ -403,7 +403,7 @@ export default function Home() {
                 <p className="text-2xl font-semibold text-primary">{profile.pregnancyWeek}</p>
               </div>
               <div className="ml-auto text-right">
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">Due ETA</p>
+                <p className="text-xs uppercase tracking-wide text-muted-foreground">Baby Arrival</p>
                 <p className="text-lg font-semibold">{dueDate ?? "—"}</p>
               </div>
             </div>
