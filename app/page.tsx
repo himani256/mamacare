@@ -363,7 +363,11 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-[#fffaf5] via-[#fff1ea] to-[#ffeae0] pb-24">
 
       <main id="dashboard" className="mx-auto mt-12 grid max-w-6xl gap-6 px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-end">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center">
+            <Image src="/logo.png" alt="Mamacare Logo" width={40} height={40} className="h-10 w-10" />
+            <span className="ml-2 text-xl font-semibold text-primary">Mamacare</span>
+          </div>
           <Button onClick={handleGoogleAuth} variant="outline" className="border-primary/40 text-primary hover:bg-primary/10">
             Logout
           </Button>
