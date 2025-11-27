@@ -30,6 +30,12 @@ type SymptomEntry = {
   loggedAt: string
 }
 
+type ReflectionEntry = {
+  id: string
+  text: string
+  timestamp: string
+}
+
 type ReminderFrequency = 1 | 2 | 4
 
 type MamacareProfile = {
@@ -37,6 +43,7 @@ type MamacareProfile = {
   symptoms: SymptomEntry[]
   reminderFrequencyWeeks: ReminderFrequency
   customNotes: string
+  reflections?: ReflectionEntry[]
 }
 
 const defaultProfile: MamacareProfile = {
@@ -44,6 +51,7 @@ const defaultProfile: MamacareProfile = {
   symptoms: [],
   reminderFrequencyWeeks: 4,
   customNotes: "",
+  reflections: [],
 }
 
 const TRIMESTER_GUIDANCE = {
@@ -130,6 +138,7 @@ export default function Home() {
   const [saving, setSaving] = useState(false)
   const [deviceSync, setDeviceSync] = useState({ heartRate: false, steps: false })
   const [now, setNow] = useState<number | null>(null)
+  const [reflectionText, setReflectionText] = useState("")
 
   useEffect(() => {
     setNow(Date.now())
@@ -146,7 +155,7 @@ export default function Home() {
   const pregnancyProgress = Math.min(100, Math.round((profile.pregnancyWeek / 40) * 100))
 
   const latestSymptoms = profile.symptoms.slice(0, 4)
-  const activeSymptomKeys = Array.from(new Set(latestSymptoms.map((item) => item.symptom)))
+  const activeSymptomKeys = Array.from(new Set(latestSymptoms.map((item: SymptomEntry) => item.symptom)))
 
   const symptomDietBoosters = SYMPTOM_LIBRARY.filter((item) => activeSymptomKeys.includes(item.value))
 
@@ -182,6 +191,7 @@ export default function Home() {
           symptoms: data.symptoms ?? [],
           reminderFrequencyWeeks: (data.reminderFrequencyWeeks as ReminderFrequency) ?? defaultProfile.reminderFrequencyWeeks,
           customNotes: data.customNotes ?? "",
+          reflections: data.reflections ?? [],
         })
       } else {
         await setDoc(ref, { ...defaultProfile, uid: authUser.uid, createdAt: serverTimestamp() })
@@ -211,7 +221,7 @@ export default function Home() {
       return
     }
     
-    const unsub = onAuthStateChanged(auth, (authUser) => {
+    const unsub = onAuthStateChanged(auth, (authUser: User) => {
       setUser(authUser)
       setLoading(false)
       if (authUser) {
@@ -252,7 +262,7 @@ export default function Home() {
   }
 
   const updateWeek = async (week: number) => {
-    setProfile((prev) => ({ ...prev, pregnancyWeek: week }))
+    setProfile((prev: MamacareProfile) => ({ ...prev, pregnancyWeek: week }))
     await persistProfile({ pregnancyWeek: week })
   }
 
@@ -266,14 +276,35 @@ export default function Home() {
       loggedAt: new Date().toISOString(),
     }
     const updated = [newEntry, ...profile.symptoms].slice(0, 20)
-    setProfile((prev) => ({ ...prev, symptoms: updated }))
-    setSymptomDraft((prev) => ({ ...prev, notes: "" }))
+    setProfile((prev: MamacareProfile) => ({ ...prev, symptoms: updated }))
+    setSymptomDraft((prev: typeof symptomDraft) => ({ ...prev, notes: "" }))
     await persistProfile({ symptoms: updated })
   }
 
   const handleReminderChange = async (value: ReminderFrequency) => {
-    setProfile((prev) => ({ ...prev, reminderFrequencyWeeks: value }))
+    setProfile((prev: MamacareProfile) => ({ ...prev, reminderFrequencyWeeks: value }))
     await persistProfile({ reminderFrequencyWeeks: value })
+  }
+
+  const handleSaveReflection = async () => {
+    if (!reflectionText.trim()) return
+    
+    // Add the reflection to the profile
+    const newReflection = {
+      id: makeId(),
+      text: reflectionText,
+      timestamp: new Date().toISOString()
+    }
+    
+    // Update the profile with the new reflection
+    const updatedProfile = {
+      ...profile,
+      reflections: [...(profile.reflections || []), newReflection]
+    }
+    
+    setProfile(updatedProfile)
+    setReflectionText("")
+    await persistProfile({ reflections: updatedProfile.reflections })
   }
 
   const symptomSummary = latestSymptoms.length
@@ -765,8 +796,17 @@ export default function Home() {
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Textarea placeholder="How did your body feel today? Any wins to celebrate?" rows={4} />
-              <Button variant="outline" className="border-accent/40 text-accent">
+              <Textarea 
+                placeholder="How did your body feel today? Any wins to celebrate?" 
+                rows={4} 
+                value={reflectionText}
+                onChange={(e) => setReflectionText(e.target.value)}
+              />
+              <Button 
+                variant="outline" 
+                className="border-accent/40 text-accent"
+                onClick={handleSaveReflection}
+              >
                 Save reflection
               </Button>
               <p className="text-xs text-muted-foreground">
