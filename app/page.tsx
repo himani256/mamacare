@@ -373,7 +373,7 @@ export default function Home() {
                 </div>
               </div>
               <Image
-                src="/design.webp"
+                src="/logo.png"
                 alt="Pregnancy companion preview"
                 width={540}
                 height={540}
@@ -438,7 +438,7 @@ export default function Home() {
               </div>
             </div>
             <Image
-              src="/design.webp"
+              src="/logo.png"
               alt="Pregnancy companion preview"
               width={540}
               height={540}
