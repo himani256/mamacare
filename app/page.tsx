@@ -415,9 +415,40 @@ export default function Home() {
                     className="rounded-2xl border bg-secondary/40 p-4 text-sm font-medium text-secondary-foreground cursor-pointer hover:bg-secondary/60 transition-colors"
                     onClick={() => {
                       // Scroll to the relevant section based on the item clicked
-                      const element = document.getElementById(item.toLowerCase());
+                      let targetId = "";
+                      switch (item) {
+                        case "Nutrition":
+                          targetId = "diet-guidance";
+                          break;
+                        case "Symptoms":
+                          targetId = "symptom-tracker";
+                          break;
+                        case "Checkups":
+                          targetId = "checkup-reminders";
+                          break;
+                        default:
+                          return;
+                      }
+                      
+                      const element = document.getElementById(targetId);
                       if (element) {
                         element.scrollIntoView({ behavior: "smooth", block: "start" });
+                      } else {
+                        // Fallback: Try to find elements by text content
+                        const sections = document.querySelectorAll("section");
+                        for (let i = 0; i < sections.length; i++) {
+                          const title = sections[i].querySelector("h3"); // CardTitle renders as h3
+                          if (title && title.textContent) {
+                            if (
+                              (item === "Nutrition" && title.textContent.includes("Diet")) ||
+                              (item === "Symptoms" && title.textContent.includes("Symptom")) ||
+                              (item === "Checkups" && title.textContent.includes("Checkup"))
+                            ) {
+                              sections[i].scrollIntoView({ behavior: "smooth", block: "start" });
+                              break;
+                            }
+                          }
+                        }
                       }
                     }}
                   >
@@ -429,8 +460,8 @@ export default function Home() {
           </Card>
         </section>
 
-        <section className="grid gap-6 lg:grid-cols-2">
-          <Card>
+        <section id="diet-symptom-section" className="grid gap-6 lg:grid-cols-2">
+          <Card id="diet-guidance">
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
                 <CardTitle>Diet guidance</CardTitle>
@@ -481,7 +512,7 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card id="symptom-tracker">
             <CardHeader className="flex flex-row justify-between">
               <div>
                 <CardTitle>Symptom tracker</CardTitle>
@@ -556,7 +587,7 @@ export default function Home() {
           </Card>
         </section>
 
-        <section className="grid gap-6 lg:grid-cols-3">
+        <section id="checkup-reminders" className="grid gap-6 lg:grid-cols-3">
           <Card className="lg:col-span-2">
             <CardHeader className="flex flex-row items-start justify-between gap-4">
               <div>
