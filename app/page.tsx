@@ -336,7 +336,7 @@ export default function Home() {
         <div className="hero-grid relative px-4 py-10 sm:px-8 lg:px-12">
           <div className="mx-auto flex max-w-6xl flex-col gap-8 lg:flex-row lg:items-center">
             <div className="flex-1 space-y-6">
-              <p className="pill w-fit bg-white/70">Pregnancy wellness OS</p>
+              <p className="pill w-fit bg-white/70">Created with ❤️ by Himani</p>
               <h1 className="section-heading">
                 Mamacare keeps every trimester nourished, documented, and on schedule.
               </h1>
@@ -394,7 +394,7 @@ export default function Home() {
       <div className="hero-grid relative px-4 py-10 sm:px-8 lg:px-12">
         <div className="mx-auto flex max-w-6xl flex-col gap-8 lg:flex-row lg:items-center">
           <div className="flex-1 space-y-6">
-            <p className="pill w-fit bg-white/70">Pregnancy wellness OS</p>
+            <p className="pill w-fit bg-white/70">Created with ❤️ by Himani</p>
             <h1 className="section-heading">
               Mamacare keeps every trimester nourished, documented, and on schedule.
             </h1>
