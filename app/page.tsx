@@ -139,6 +139,7 @@ export default function Home() {
   const [deviceSync, setDeviceSync] = useState({ heartRate: false, steps: false })
   const [now, setNow] = useState<number | null>(null)
   const [reflectionText, setReflectionText] = useState("")
+  const [shareLink, setShareLink] = useState("")
 
   useEffect(() => {
     setNow(Date.now())
@@ -302,6 +303,33 @@ export default function Home() {
     setProfile((prev: MamacareProfile) => ({ ...prev, reflections: updatedReflections }))
     setReflectionText("")
     await persistProfile({ reflections: updatedReflections })
+  }
+
+  const generateShareLink = () => {
+    if (!user) return
+    // Generate a unique shareable link for the user
+    const shareCode = makeId().slice(0, 8)
+    const link = `https://mamacare.app/share/${shareCode}`
+    setShareLink(link)
+    return link
+  }
+
+  const copyShareLink = () => {
+    const link = shareLink || generateShareLink()
+    navigator.clipboard.writeText(link).then(() => {
+      setStatusMessage("Link copied to clipboard!")
+      setTimeout(() => setStatusMessage(null), 2000)
+    })
+  }
+
+  const downloadPDF = () => {
+    // In a real implementation, this would generate and download a PDF
+    // For now, we'll show a message that this feature is being prepared
+    setStatusMessage("PDF generation in progress...")
+    setTimeout(() => {
+      setStatusMessage("PDF download ready! (Demo: In a real app, this would download a PDF)")
+      setTimeout(() => setStatusMessage(null), 3000)
+    }, 1500)
   }
 
   const symptomSummary = latestSymptoms.length
@@ -775,11 +803,11 @@ export default function Home() {
                 dashboard.
               </p>
               <div className="rounded-2xl border bg-white px-4 py-3 text-sm font-mono">
-                https://mamacare.app/share/<span className="text-primary">your-code</span>
+                {shareLink || "https://mamacare.app/share/"}<span className="text-primary">{shareLink ? shareLink.split('/').pop() : "your-code"}</span>
               </div>
               <div className="flex flex-wrap gap-3">
-                <Button>Copy secure link</Button>
-                <Button variant="outline">Download PDF</Button>
+                <Button onClick={copyShareLink}>Copy secure link</Button>
+                <Button variant="outline" onClick={downloadPDF}>Download PDF</Button>
               </div>
             </CardContent>
           </Card>
