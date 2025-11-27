@@ -621,7 +621,7 @@ export default function Home() {
               <Bell className="h-10 w-10 text-primary" />
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="space-y-3">
                 <Select
                   value={profile.reminderFrequencyWeeks.toString()}
                   onValueChange={(value) => handleReminderChange(Number(value) as ReminderFrequency)}
