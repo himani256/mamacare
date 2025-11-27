@@ -430,7 +430,7 @@ export default function Home() {
         )}
 
         <section className="grid gap-6 lg:grid-cols-3">
-          <Card className="lg:col-span-2">
+          <Card className="lg:col-span-3">
             <CardHeader>
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -465,21 +465,6 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Account</CardTitle>
-              <CardDescription>{user ? `Signed in as ${user.email}` : "Create a secure Mamacare profile"}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Button className="w-full" onClick={handleGoogleAuth} variant={user ? "outline" : "default"}>
-                {user ? "Sign out" : "Continue with Google"}
-              </Button>
-              <p className="text-xs text-muted-foreground">
-                Authentication is handled by Firebase OAuth. We only request your email to tie logs to your account.
-              </p>
             </CardContent>
           </Card>
         </section>
