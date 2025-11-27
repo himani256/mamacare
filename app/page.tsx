@@ -297,14 +297,11 @@ export default function Home() {
     }
     
     // Update the profile with the new reflection
-    const updatedProfile = {
-      ...profile,
-      reflections: [...(profile.reflections || []), newReflection]
-    }
+    const updatedReflections = [...(profile.reflections || []), newReflection]
     
-    setProfile(updatedProfile)
+    setProfile((prev: MamacareProfile) => ({ ...prev, reflections: updatedReflections }))
     setReflectionText("")
-    await persistProfile({ reflections: updatedProfile.reflections })
+    await persistProfile({ reflections: updatedReflections })
   }
 
   const symptomSummary = latestSymptoms.length
@@ -812,6 +809,21 @@ export default function Home() {
               <p className="text-xs text-muted-foreground">
                 Reflections sync to Firestore so your future self can celebrate progress.
               </p>
+              {profile.reflections && profile.reflections.length > 0 && (
+                <div className="mt-4 pt-4 border-t border-accent/20">
+                  <h4 className="text-sm font-semibold mb-2 text-accent">Recent Reflections</h4>
+                  <div className="space-y-3 max-h-60 overflow-y-auto">
+                    {[...profile.reflections].reverse().map((reflection) => (
+                      <div key={reflection.id} className="bg-accent/5 p-3 rounded-lg">
+                        <p className="text-sm text-muted-foreground">
+                          {format(new Date(reflection.timestamp), "MMM d, h:mmaaa")}
+                        </p>
+                        <p className="mt-1 text-sm">{reflection.text}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         </section>
