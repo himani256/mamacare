@@ -363,6 +363,11 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-[#fffaf5] via-[#fff1ea] to-[#ffeae0] pb-24">
 
       <main id="dashboard" className="mx-auto mt-12 grid max-w-6xl gap-6 px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-end">
+          <Button onClick={handleGoogleAuth} variant="outline" className="border-primary/40 text-primary hover:bg-primary/10">
+            Logout
+          </Button>
+        </div>
         {firebaseAlert}
         {statusMessage && (
           <div className="rounded-xl border border-primary/20 bg-white px-4 py-3 text-sm text-primary shadow-sm">
