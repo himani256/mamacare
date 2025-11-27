@@ -166,7 +166,7 @@ export default function Home() {
 
   const dueDate = useMemo(() => {
     if (!now || profile.pregnancyWeek >= 40) return null
-    return format(addWeeks(new Date(now), 40 - profile.pregnancyWeek), "EEE, MMM d")
+    return format(addWeeks(new Date(now), 40 - profile.pregnancyWeek), "EEE, MMM d, yyyy")
   }, [now, profile.pregnancyWeek])
 
   const loadProfile = useCallback(
