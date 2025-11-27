@@ -410,7 +410,17 @@ export default function Home() {
               </div>
               <div className="grid gap-4 sm:grid-cols-3">
                 {["Nutrition", "Symptoms", "Checkups"].map((item) => (
-                  <div key={item} className="rounded-2xl border bg-secondary/40 p-4 text-sm font-medium text-secondary-foreground">
+                  <div
+                    key={item}
+                    className="rounded-2xl border bg-secondary/40 p-4 text-sm font-medium text-secondary-foreground cursor-pointer hover:bg-secondary/60 transition-colors"
+                    onClick={() => {
+                      // Scroll to the relevant section based on the item clicked
+                      const element = document.getElementById(item.toLowerCase());
+                      if (element) {
+                        element.scrollIntoView({ behavior: "smooth", block: "start" });
+                      }
+                    }}
+                  >
                     {item}
                   </div>
                 ))}
